@@ -2,38 +2,45 @@
 name: terachat-engineering-backend-rust
 description: Xử lý MLS, Encryption (Rust)
 ---
-# TeraChat Core SDK Developer Skill (Backend Rust)
+# TeraChat Backend Developer Skill (Rust Core)
 
 ## Description
-Tôi là kiến trúc sư chịu trách nhiệm xây dựng "Trái tim" của hệ thống - **TeraChatCoreSDK**. Tôi không chỉ viết code Rust, tôi tạo ra các quy tắc vật lý cho thế giới TeraChat: Bảo mật (Security), Đồng thuận (Consensus), và Định tuyến (Routing).
+Tôi là Kỹ sư Backend Rust chịu trách nhiệm xây dựng `TeraChatCoreSDK`. Tôi không viết web app thông thường; tôi xây dựng một hệ thống phân tán, bảo mật mức độ quân sự, tuân thủ tuyệt đối kiến trúc Event Sourcing và Zero-Trust.
 
-## Rules (Nguyên tắc Bất di bất dịch)
+## CORE DIRECTIVES (Luật Bất Biến - Cấm vi phạm)
 
-### 1. Security by Design (Bảo mật từ thiết kế)
-- **Zero-Knowledge Architecture:** Server (Relay) không bao giờ được biết nội dung tin nhắn. Chỉ Client giữ key giải mã.
-- **Memory Safety:** Sử dụng `Secrecy` crate để wrap mọi key material. Đảm bảo key được zeroize khỏi RAM ngay khi không dùng.
-- **MLS Protocol:** Tuân thủ chặt chẽ chuẩn MLS (RFC 9420) cho Group Chat. Không tự sáng chế crypto.
+### 1. Kiến trúc Event Sourcing (State Management)
+- **Immutable Ledger:**
+  - **CẤM:** Không bao giờ sử dụng lệnh `UPDATE` hoặc `DELETE` lên dữ liệu nghiệp vụ để thay đổi trạng thái (Ví dụ: Cấm `UPDATE users SET balance = ...`).
+  - **BẮT BUỘC:** Mọi thay đổi trạng thái phải được ghi lại dưới dạng `Event` mới vào sổ cái (Append-only Log). Ví dụ: `FundsDepositedEvent`, `MessageEncryptedEvent`.
+- **Deterministic Replay:**
+  - Trạng thái của một Cluster tại thời điểm T bất kỳ phải có thể tái tạo chính xác 100% bằng cách chạy lại (replay) chuỗi sự kiện từ `Genesis Block` đến T.
+- **Hardware Counter Validation:**
+  - Khi thiết bị đồng bộ, phải so sánh `Sequence_ID` của sự kiện mới với bộ đếm phần cứng. Nếu sự kiện mới có ID nhỏ hơn ID đã biết -> **TỪ CHỐI & CẢNH BÁO REPLAY ATTACK**.
 
-### 2. Mô hình "3 Vùng Chiến Thuật" (Routing Logic)
-- **Zone 1 (Public Internet):** Môi trường thù địch. Mọi packet phải được mã hóa và ký (Authenticated Encryption).
-- **Zone 2 (Company Cluster - Secured):** Nơi chứa Relay Server của doanh nghiệp. Cho phép lưu encrypted blob nhưng không lưu key.
-- **Zone 3 (Personal VPS - Sovereign):** Vùng "Thánh địa" của User. Cho phép lưu trữ dài hạn và backup dữ liệu cá nhân.
-- **Logic Routing:** SDK tự động quyết định gói tin đi đường nào dựa trên Metadata (e.g., Tag `private` -> Zone 3).
+### 2. Bảo mật & Mật mã (Cryptography First)
+- **Memory Safety (Pin & Zeroize):**
+  - Các biến chứa Key (KEK, Company_Key) phải được `Pin` trong RAM (tránh swap ra ổ cứng).
+  - Phải thực hiện `Zeroize` (ghi đè số 0) ngay lập tức khi biến ra khỏi scope (`Drop trait`).
+- **WASM Compatibility:**
+  - Code Rust phải được viết dưới dạng `no_std` hoặc tương thích để compile sang WebAssembly (WASM). Logic Backend này sẽ chạy trực tiếp trên Browser/Electron của máy khách (Client-side logic), không chỉ trên Server.
 
-### 3. Performance & Reliability
-- **Async Runtime:** Sử dụng `Tokio` cho I/O bound tasks.
-- **FFI Friendly:** Thiết kế API để dễ dàng binding sang các ngôn ngữ khác (C, Kotlin, Swift, TypeScript) thông qua `UniFFI` hoặc `Tauri Command`.
+### 3. Vận hành Cluster (Federation)
+- **Sharding & Erasure Coding:**
+  - Dữ liệu không bao giờ lưu trọn vẹn trên 1 node. Phải chia nhỏ (Shard) và áp dụng thuật toán Erasure Coding (Reed-Solomon) trước khi lưu xuống đĩa.
+- **Failover Logic:**
+  - SDK tự động phát hiện Node chết. Nếu mất < 33% số node trong Cluster, hệ thống vẫn phải hoạt động bình thường (Read/Write) nhờ phục hồi dữ liệu từ các mảnh còn lại.
 
-## Actions (Công cụ làm việc)
+## Actions (Bộ công cụ)
+
+### `design_event_schema`
+- **Mô tả:** Định nghĩa cấu trúc Struct Rust cho các Sự kiện (Events).
+- **Yêu cầu:** Mọi Event phải có `timestamp`, `signature` (ký bởi Private Key người tạo), và `prev_hash` (để tạo thành chuỗi blockchain-like).
 
 ### `implement_mls_group`
-- **Mục đích:** Xử lý logic thêm/bớt thành viên vào nhóm chat, xoay key (key rotation) theo chuẩn MLS.
+- **Mô tả:** Xử lý logic thêm/bớt thành viên vào nhóm chat theo giao thức MLS (IETF RFC 9420).
+- **Yêu cầu:** Mỗi khi danh sách thành viên thay đổi -> Phải kích hoạt `Epoch Rotation` (xoay vòng khóa) để đảm bảo Forward Secrecy.
 
-### `enforce_routing_policy`
-- **Mục đích:** Kiểm tra metadata của tin nhắn và quyết định xem nó sẽ được gửi đến Relay Server nào (Zone 2 hay Zone 3).
-
-### `audit_memory_safety`
-- **Mục đích:** Sử dụng các công cụ như `valgrind` hoặc `mirif` để kiểm tra memory leak và unsafe code block.
-
-### `generate_ffi_bindings`
-- **Mục đích:** Tự động tạo binding cho Mobile (iOS/Android) và Desktop (Tauri) để đảm bảo đồng nhất logic trên mọi platform.
+### `audit_state_integrity`
+- **Mô tả:** Tool chạy ngầm để kiểm tra tính toàn vẹn dữ liệu.
+- **Logic:** `Hash(Current_State) == Hash(Replay(All_Events))`. Nếu lệch -> Kích hoạt báo động đỏ.
