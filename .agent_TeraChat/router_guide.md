@@ -4,7 +4,7 @@ This guide explains how to use the new Orchestrator Router and Workflows to mana
 
 ## 1. Orchestrator Router (`scripts/orchestrator_router.py`)
 
-The router is the central nervous system of the TeraChat agent. It takes slash commands and routes them to the appropriate specialist agent or workflow.
+The router is the central nervous system of the TeraChat agent. It takes slash commands and routes them to the appropriate specialist agent, script, or workflow.
 
 ### Usage
 Run the script with a command as an argument:
@@ -12,17 +12,36 @@ Run the script with a command as an argument:
 python3 .agent_TeraChat/scripts/orchestrator_router.py "/command [arguments]"
 ```
 
-### Supported Commands
-| Command | Target Agent/Workflow | Purpose |
+### Supported Commands (Short Aliases)
+
+#### 🏗️ Engineering (Dev Team)
+| Command | Target | Purpose |
 | :--- | :--- | :--- |
-| `/backend` | `terachat-engineering/backend-core-rust` | Core Rust Backend tasks |
-| `/frontend` | `terachat-engineering/desktop-tauri-frontend` | Frontend Tauri/React tasks |
-| `/native` | `terachat-engineering/native-bridge-apple` | iOS/macOS Native Bridge tasks |
-| `/fintech` | `terachat-engineering/backend-fintech-blind` | Fintech & Payment modules |
-| `/security` | `terachat-ai-data/ai-gateway-guard` | Security & AI Gateway |
-| `/devops` | `terachat-infrastructure/devops-cicd` | CI/CD & Infrastructure |
-| `/doc` | `terachat-documentation` | Documentation updates |
-| `/test` | **WORKFLOW: test_cycle** | Triggers the Agile Testing Cycle |
+| `/core` | `backend-core-rust` | Core Rust Backend (Logic, Crypto) |
+| `/fintech` | `backend-fintech-blind` | Fintech Blind Bridge (Payments) |
+| `/ui` | `desktop-tauri-frontend` | Frontend/Desktop (Tauri, React) |
+| `/bridge` | `native-bridge-apple` | Native Bridge (Swift, Secure Enclave) |
+
+#### 🛡️ Security & AI
+| Command | Target | Purpose |
+| :--- | :--- | :--- |
+| `/guard` | `ai-gateway-guard` | AI Gateway (PII Filtering) |
+| `/audit` | **Script: security_audit.py** | Run Security Audit Scanner |
+
+#### 🧠 Management & Design
+| Command | Target | Purpose |
+| :--- | :--- | :--- |
+| `/orch` | `terachat-orchestrator` | Architecture & Routing |
+| `/design` | `terachat-ui-architect` | Hybrid UI Design (Stitch + Secure) |
+| `/docs` | `terachat-documentation` | Documentation updates |
+
+#### ⚙️ Operations & Actions
+| Command | Target | Purpose |
+| :--- | :--- | :--- |
+| `/init` | **Script: scaffold_terachat.py** | Initialize Project Structure |
+| `/build` | **Script: hermetic_build.py** | Run Hermetic Build |
+| `/test` | **Workflow: test_cycle** | Trigger Agile Test Cycle |
+| `/ops` | `terachat-infrastructure` | DevOps/Infrastructure |
 
 ## 2. Agile Testing Workflow (`workflows/test_cycle.md`)
 
