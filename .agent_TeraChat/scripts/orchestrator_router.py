@@ -35,27 +35,36 @@ def route_command(user_input):
         "/doc": "terachat-documentation"
     }
 
-    # Tách lệnh đầu tiên (ví dụ: /core)
-    match = re.match(r"^(/[\w-]+)", user_input)
+    # Tách lệnh đầu tiên (ví dụ: /core) khỏi phần còn lại (arguments)
+    # Ví dụ: "/core fix memory leak" -> cmd="/core", context="fix memory leak"
+    match = re.match(r"^(/[\w-]+)(?:\s+(.*))?$", user_input)
+    
     if match:
         cmd = match.group(1)
+        context = match.group(2) if match.group(2) else ""
+        
         if cmd in commands:
             target = commands[cmd]
             
             if target.startswith("WORKFLOW:"):
-                return f"🔄 Kích hoạt quy trình phối hợp: {target.replace('WORKFLOW:', '')}"
+                workflow_name = target.replace('WORKFLOW:', '')
+                return f"🔄 Kích hoạt quy trình phối hợp: {workflow_name}\nCONTEXT: {context}"
             
             if target.startswith("SCRIPT:"):
                 script_path = target.replace('SCRIPT:', '')
-                return f"⚡ Thực thi Script: python3 .agent_TeraChat/{script_path}"
+                # Trong thực tế, hệ thống sẽ chạy lệnh này. Ở đây ta in ra hướng dẫn.
+                return f"⚡ Thực thi Script: python3 .agent_TeraChat/{script_path} {context}"
                 
-            return f"🛡️ Đang kết nối tới bộ phận: {target}..."
+            # Trả về format chuẩn để Agent nhận diện
+            return f"🛡️ ROUTING_TO: {target}\nCONTEXT: {context}"
     
-    return "💡 TeraChat Orchestrator: Gõ /help hoặc xem router_guide.md để biết danh sách lệnh."
+    return "💡 TeraChat Orchestrator: Gõ /help hoặc xem Document_Skills.md để biết danh sách lệnh."
 
 if __name__ == "__main__":
-    # Giả lập nhận input từ dòng lệnh
+    # Nối tất cả tham số dòng lệnh thành một chuỗi duy nhất để xử lý
+    # Ví dụ: python script.py /core fix bug -> "/core fix bug"
     if len(sys.argv) > 1:
-        print(route_command(sys.argv[1]))
+        full_command = " ".join(sys.argv[1:])
+        print(route_command(full_command))
     else:
         print(route_command(""))
