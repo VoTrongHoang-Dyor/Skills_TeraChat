@@ -1,0 +1,36 @@
+workflows:
+  - trigger: "/deploy"
+    mode: "sequential_strict"
+    description: "Build, Sign, and Ship a new version to the cluster."
+    steps:
+      # Phase 1: Builder
+      - id: "build"
+        agent: "terachat-engineering/backend-rust"
+        action: "compile_release"
+        required_output: ["binary_file", "source_hash"]
+        on_failure: "ABORT_PIPELINE"
+
+      # Phase 2: Auditor (The Gatekeeper)
+      - id: "sign"
+        agent: "terachat-infrastructure/secops-audit"
+        action: "sign_release"
+        input_mapping:
+          hash_to_verify: "build.output.source_hash"
+        security_gate: true # Yêu cầu xác thực phần cứng để mở HSM
+        required_output: ["digital_signature"]
+        on_failure: "ABORT_PIPELINE"
+
+      # Phase 3: Carrier (Sẽ định nghĩa ở bước sau)
+      - id: "ship"
+        agent: "terachat-infrastructure/devops-cicd" 
+        action: "push_to_cluster"
+        input_mapping:
+          binary: "build.output.binary_file"
+          signature: "sign.output.digital_signature"
+
+  - trigger: "/healthcheck"
+    mode: "parallel_swarm"
+    description: "Non-blocking system status check."
+    steps:
+      - { agent: "terachat-engineering/backend-rust", action: "ping_db" }
+      - { agent: "terachat-infrastructure/secops-audit", action: "check_integrity" }
