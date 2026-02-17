@@ -1,0 +1,20 @@
+{
+  "name": "TeraChat Enterprise Agent",
+  "version": "0.2.1-alpha",
+  "description": "Biệt đội AI chuyên trách xây dựng ứng dụng chat bảo mật E2EE & Zero-Trust.",
+  "skills": [
+    "skills/**/*.md"
+  ],
+  "workflows": [
+    "workflows/*.md"
+  ],
+  "scripts": {
+    "audit": "python3 scripts/security_audit.py",
+    "init": "python3 scripts/scaffold_terachat.py",
+    "router": "python3 scripts/orchestrator_router.py"
+  },
+  "env": {
+    "RUST_LOG": "info",
+    "TERACHAT_ENV": "clean-room"
+  }
+}
