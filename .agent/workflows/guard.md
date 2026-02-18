@@ -26,7 +26,7 @@ Khi `/guard` được kích hoạt:
    python3 scripts/orchestrator_router.py /security
    ```
 
-   → Target: `terachat-ai-data/ai-gateway-guard`
+   → Target: `ai-data/ai-gateway-guard`
 
 2. **Agent sẽ hoạt động với chuyên môn:**
    - Dual-Mask Protocol (Tokenize → Send → Rehydrate)
@@ -46,7 +46,7 @@ Khi `/guard` được kích hoạt:
 
 ```text
 ACTION_TRIGGERED: CHANGE_CONTEXT
-TARGET_AGENT: terachat-ai-data/ai-gateway-guard
+TARGET_AGENT: ai-data/ai-gateway-guard
 USER_PROMPT: [user's request]
 ```
 

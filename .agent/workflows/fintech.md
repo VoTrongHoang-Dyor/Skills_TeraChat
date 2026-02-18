@@ -26,7 +26,7 @@ Khi `/fintech` được kích hoạt:
    python3 scripts/orchestrator_router.py /fintech
    ```
 
-   → Target: `terachat-engineering/backend-fintech-blind`
+   → Target: `engineering/backend-fintech-blind`
 
 2. **Agent sẽ hoạt động với chuyên môn:**
    - Tokenization & Detokenization pipeline
@@ -46,7 +46,7 @@ Khi `/fintech` được kích hoạt:
 
 ```text
 ACTION_TRIGGERED: CHANGE_CONTEXT
-TARGET_AGENT: terachat-engineering/backend-fintech-blind
+TARGET_AGENT: engineering/backend-fintech-blind
 USER_PROMPT: [user's request]
 ```
 

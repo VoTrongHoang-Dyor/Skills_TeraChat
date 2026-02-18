@@ -26,7 +26,7 @@ Khi `/ui` được kích hoạt:
    python3 scripts/orchestrator_router.py /frontend
    ```
 
-   → Target: `terachat-engineering/desktop-tauri-frontend`
+   → Target: `engineering/desktop-tauri-frontend`
 
 2. **Agent sẽ hoạt động với chuyên môn:**
    - Tauri V2 + React (TypeScript)
@@ -47,7 +47,7 @@ Khi `/ui` được kích hoạt:
 
 ```text
 ACTION_TRIGGERED: CHANGE_CONTEXT
-TARGET_AGENT: terachat-engineering/desktop-tauri-frontend
+TARGET_AGENT: engineering/desktop-tauri-frontend
 USER_PROMPT: [user's request]
 ```
 

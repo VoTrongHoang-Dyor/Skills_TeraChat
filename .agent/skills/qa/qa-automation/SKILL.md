@@ -22,33 +22,33 @@ QA Automation không được phép can thiệp vào Server để đọc tin nh�
 
 ### 2. Kiến trúc Automation (Dual-Layer Testing)
 
-**Layer A: Functional E2EE (Kiểm thử chức năng)**
+#### Layer A: Functional E2EE (Kiểm thử chức năng)
 
-* **Công cụ:** Playwright (cho Electron/Web) hoặc Appium (Native).
-* **Kịch bản:**
+- **Công cụ:** Playwright (cho Electron/Web) hoặc Appium (Native).
+- **Kịch bản:**
   1. Khởi chạy **Client A** (User Sender) và **Client B** (User Receiver).
   2. Client A nhập: *"Báo cáo tài chính Q1.xlsx"*.
   3. Client A nhấn Send.
   4. Client B chờ (Wait for Element).
   5. **Assertion:** Màn hình Client B phải hiển thị đúng *"Báo cáo tài chính Q1.xlsx"*.
-* *Ý nghĩa:* Chứng minh tính năng giải mã hoạt động đúng tại máy nhận.
+- *Ý nghĩa:* Chứng minh tính năng giải mã hoạt động đúng tại máy nhận.
 
-**Layer B: Leakage Prevention (Kiểm thử chống rò rỉ)**
+#### Layer B: Leakage Prevention (Kiểm thử chống rò rỉ)
 
-* **Công cụ:** Wireshark CLI (TShark) hoặc Proxy (Mitmproxy) tích hợp trong CI/CD.
-* **Kịch bản:**
+- **Công cụ:** Wireshark CLI (TShark) hoặc Proxy (Mitmproxy) tích hợp trong CI/CD.
+- **Kịch bản:**
   1. Test Runner lắng nghe cổng mạng (Port 443/TCP) giữa Client và Server Cluster.
   2. Client A gửi chuỗi *"SECRET_PASSWORD_123"*.
   3. Test Runner bắt gói tin HTTP/WebSocket payload.
   4. **Assertion (Quan trọng nhất):** Quét nội dung gói tin. Nếu tìm thấy chuỗi *"SECRET_PASSWORD_123"* (Plain text) -> **FAIL NGAY LẬP TỨC**.
-* *Ý nghĩa:* Đảm bảo dữ liệu đã được mã hóa trước khi rời khỏi card mạng.
+- *Ý nghĩa:* Đảm bảo dữ liệu đã được mã hóa trước khi rời khỏi card mạng.
 
 ### 3. Kịch bản Chaos Testing (Kiểm thử độ lì lợm)
 
 Dành cho tính năng **Erasure Coding** và **VPS Return**.
 
-* **Tên kịch bản:** `test_cluster_resilience_kill_node`
-* **Các bước:**
+- **Tên kịch bản:** `test_cluster_resilience_kill_node`
+- **Các bước:**
   1. Start Cluster 3 Nodes (Docker/Podman).
   2. Client A gửi file 100MB.
   3. Trong lúc đang upload 50%, **KILL Node 2** (mô phỏng VPS bị nhà mạng cắt hoặc mất điện).
@@ -59,8 +59,8 @@ Dành cho tính năng **Erasure Coding** và **VPS Return**.
 
 QA cần đặt ngưỡng "Pass/Fail" cho tốc độ mã hóa:
 
-* **Cold Start:** Mở App < 2s (Bất chấp việc phải load Local DB đã mã hóa).
-* **Encryption Latency:** Thời gian từ lúc nhấn Enter đến lúc gói tin rời mạng < 50ms (Trên CPU i5 đời cũ). Nếu mã hóa quá nặng làm lag máy -> **Reject Build**.
+- **Cold Start:** Mở App < 2s (Bất chấp việc phải load Local DB đã mã hóa).
+- **Encryption Latency:** Thời gian từ lúc nhấn Enter đến lúc gói tin rời mạng < 50ms (Trên CPU i5 đời cũ). Nếu mã hóa quá nặng làm lag máy -> **Reject Build**.
 
 ---
 
@@ -76,3 +76,55 @@ QA cần đặt ngưỡng "Pass/Fail" cho tốc độ mã hóa:
    - `suite_chaos_recovery`: Tắt/Bật node liên tục.
 
 3. **CI Gate:** Pipeline sẽ block Merge Request nếu bất kỳ test nào trong `suite_security_audit` thất bại (tức là lộ dữ liệu).
+
+---
+
+## 5. Test-Driven Development (TDD Workflow)
+
+> **Source:** Antigravity `tdd-workflow` Skill
+
+### 5.1 The TDD Cycle (Red-Green-Refactor)
+
+1.  🔴 **RED:** Write a failing test. (If it passes, you're done or it's broken).
+2.  🟢 **GREEN:** Write the *minimum* code to pass. (Do not optimize).
+3.  🔵 **REFACTOR:** Clean up code while keeping tests green.
+
+### 5.2 The AAA Pattern
+
+Every test must follow this structure:
+
+- **Arrange:** Set up the world (Mock DB, auth user).
+- **Act:** Execute the function under test.
+- **Assert:** Verify the result (e.g., `expect(response).toBe(200)`).
+
+### 5.3 The Three Laws
+
+1.  You may not write production code until you have written a failing unit test.
+2.  You may not write more of a unit test than is sufficient to fail.
+3.  You may not write more production code than is sufficient to pass the currently failing test.
+
+---
+
+## 6. Web App Testing (Playwright & Deep Audit)
+
+> **Source:** Antigravity `webapp-testing` Skill
+
+### 6.1 The Testing Pyramid
+
+- **E2E (Top - 10%):** Critical User Journeys (Login, Payment, Send Message). Slow & Expensive.
+- **Integration (Middle - 30%):** API endpoints, Database queries. Fast.
+- **Unit/Component (Base - 60%):** Individual buttons, functions, utils. Instant.
+
+### 6.2 Playwright Best Practices
+
+- **Selectors:** Use `data-testid` where possible. Avoid generic classes (`.btn-primary`).
+  - Good: `page.getByTestId('submit-order')`
+  - Bad: `page.locator('div > button.blue')`
+- **Auto-Wait:** Playwright waits automatically. Do not use `page.waitForTimeout(5000)`.
+- **Traces:** Enable Trace Viewer on CI to debug failures with screenshots/video.
+
+### 6.3 Visual Regression Testing
+
+- Use for: Design Systems, Landing Pages.
+- Command: `expect(page).toHaveScreenshot()`
+- Rule: If pixels change, the test fails. Review diffs manually.

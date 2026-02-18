@@ -25,6 +25,10 @@ Khi `/audit` được kích hoạt:
    python3 scripts/security_audit.py
    ```
 
+   **Mở rộng:** Kiểm tra tuân thủ thủ `engineering/secure-coding-practices`:
+   - Memory Hygiene (Zeroize)
+   - Desktop Hardware (Isolations)
+
 2. **Quét các Pattern nguy hiểm:**
    - 🔴 `println!` / `dbg!` / `eprintln!` chứa biến nhạy cảm
    - 🔴 `unwrap()` / `expect()` không có Panic Guard

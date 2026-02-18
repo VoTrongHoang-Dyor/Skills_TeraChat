@@ -26,7 +26,7 @@ Khi `/backend` được kích hoạt:
    python3 scripts/orchestrator_router.py /backend
    ```
 
-   → Target: `terachat-engineering/backend-core-rust`
+   → Target: `engineering/backend-core-rust`
 
 2. **Agent sẽ hoạt động với chuyên môn:**
    - Rust 1.75+ (async/await, Tokio runtime)
@@ -47,7 +47,7 @@ Khi `/backend` được kích hoạt:
 
 ```text
 ACTION_TRIGGERED: CHANGE_CONTEXT
-TARGET_AGENT: terachat-engineering/backend-core-rust
+TARGET_AGENT: engineering/backend-core-rust
 USER_PROMPT: [user's request]
 ```
 

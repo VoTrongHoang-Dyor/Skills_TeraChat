@@ -26,7 +26,7 @@ Khi `/bridge` được kích hoạt:
    python3 scripts/orchestrator_router.py /native
    ```
 
-   → Target: `terachat-engineering/native-bridge-apple`
+   → Target: `engineering/native-bridge-apple`
 
 2. **Agent sẽ hoạt động với chuyên môn:**
    - Swift 5.9+ / iOS 17+
@@ -47,7 +47,7 @@ Khi `/bridge` được kích hoạt:
 
 ```text
 ACTION_TRIGGERED: CHANGE_CONTEXT
-TARGET_AGENT: terachat-engineering/native-bridge-apple
+TARGET_AGENT: engineering/native-bridge-apple
 USER_PROMPT: [user's request]
 ```
 

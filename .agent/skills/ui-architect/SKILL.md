@@ -135,11 +135,59 @@ Mọi quyết định UI phải truy nguyên từ `DESIGN.md` (được phân t�
 
 ---
 
-**Output Expectation:**  
-Mọi thiết kế và HTML sinh ra phải:
+## 6. Performance Calibration (Desktop-First)
 
-- Dễ chuyển đổi sang Rust + Tauri.
-- Không phụ thuộc trình duyệt web truyền thống.
-- Phù hợp cho desktop app native dài hạn.
+### 6.1 Bundle Size vs Runtime Performance
 
-```
+- **Reality:** App chạy local, RAM 8GB+.
+- **Directive:**
+  - **Bundle Size:** Quan trọng but not critical. 5MB main bundle is fine.
+  - **Runtime Perf (Critical):**
+    - Scroll list 5000 tin nhắn (Virtualization - `react-window`).
+    - Switch chat room < 50ms.
+    - **No IO Blocking Main Thread:** Dùng Web Worker cho decryption.
+
+### 6.2 Optimization Pattern
+
+- **Eliminate Waterfalls (Local):**
+  - **Bad:** `useEffect` -> `invoke('get_messages')` -> `setLoading(true)`.
+  - **Good:** `useQuery` với local cache (TanStack Query) + `Suspense`. Load from DB instantly.
+- **Off-Main-Thread Architecture:**
+  - Heavy tasks (Image resizing, Encryption) -> Worker/Rust Thread.
+  - UI Thread chỉ để render và handle input.
+
+---
+
+## 7. Quy Trình Tư Duy Thiết Kế (Design Thinking Workflow)
+
+Bạn không chỉ là thợ code, bạn là **Architect**. Khi nhận yêu cầu thiết kế mới, hãy sử dụng dữ liệu từ bộ Kit Antigravity để đưa ra quyết định có cơ sở khoa học.
+
+### Bước 1: Phân Tích Yêu Cầu & Tra Cứu Dữ Liệu
+
+Trước khi đưa ra màu sắc hay layout, hãy tra cứu các file CSV trong thư mục `resources/`:
+
+1. **Xác định Vibe & Màu Sắc:**
+   - Đọc `resources/ui-reasoning.csv` để tìm phong cách phù hợp với ngành hàng (Fintech, Health, Social...).
+   - Đọc `resources/colors.csv` để lấy bảng màu chuẩn tâm lý học (Trust Blue, Energetic Red...).
+   - *Ví dụ:* "Với ứng dụng Fintech, tôi đề xuất dùng bảng màu 'Trust & Security' từ `colors.csv` với màu chủ đạo là `#0A84FF` để tạo cảm giác an toàn."
+
+2. **Chọn Typography & Layout:**
+   - Đọc `resources/typography.csv` để chọn cặp font (Heading/Body) tối ưu cho việc đọc trên desktop.
+   - Đọc `resources/styles.csv` để tham khảo các pattern layout (Dashboard, Landing, Settings).
+
+3. **Kiểm Tra UX Psychology:**
+   - Đọc `resources/ux-guidelines.csv` để đảm bảo không vi phạm các quy tắc UX cơ bản (gần gũi, phản hồi, tối giản).
+
+### Bước 2: Đề Xuất Giải Pháp (Reasoning)
+
+Luôn giải thích quyết định thiết kế bằng dữ liệu:
+> "Dựa trên `ui-reasoning.csv`, phong cách 'Minimalist' phù hợp nhất cho Admin Dashboard để giảm tải nhận thức. Tôi sử dụng font Inter (từ `typography.csv`) vì tính dễ đọc cao ở kích thước nhỏ."
+
+### Bước 3: Hiện Thực Hóa (Implementation)
+
+Sau khi chốt design system từ dữ liệu:
+
+- Áp dụng vào `tailwind.config.ts`.
+- Tạo component với `shadcn-ui`.
+- Tinh chỉnh `colors` trong CSS variables.
+
