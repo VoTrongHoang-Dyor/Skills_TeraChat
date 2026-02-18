@@ -1,24 +1,64 @@
 {
-    "mcpServers": {
-        "context7": {
-            "command": "npx",
-            "args": [
-                "-y",
-                "@upstash/context7-mcp",
-                "--api-key",
-                "YOUR_API_KEY"
-            ]
-        },
-        "shadcn": {
-            "command": "npx",
-            "args": [
-                "shadcn@latest",
-                "mcp"
-            ]
-        }
-        //other mcp servers
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp",
+        "--api-key",
+        "ctx7sk-12ddbf07-9e1a-4448-a33b-56bdaa36fd75"
+      ]
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ]
+    },
+    "kubernetes": {
+      "url": "https://context7.com/containers/kubernetes-mcp-server",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "redis": {
+      "url": "https://context7.com/redis/mcp-redis",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "postgresql": {
+      "url": "https://context7.com/microsoft/mcp-server-and-postgresql-sample-retail",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "docker_gateway": {
+      "url": "https://context7.com/docker/mcp-gateway",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "docker_registry": {
+      "url": "https://context7.com/docker/mcp-registry",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "azure": {
+      "url": "https://context7.com/azure/azure-mcp",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "workflows": {
+      "url": "https://context7.com/qtsone/workflows-mcp",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "google_security": {
+      "url": "https://context7.com/google/mcp-security",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "google_docs": {
+      "url": "https://context7.com/a-bonus/google-docs-mcp",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "postgres_crystaldba": {
+      "url": "https://context7.com/crystaldba/postgres-mcp",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
+    },
+    "gmail": {
+      "url": "https://context7.com/shinzo-labs/gmail-mcp",
+      "public_key": "pk_orKZfKR8zDCj99IApBARZ"
     }
+  }
 }
-
-// setup mcp server in  ~/.gemini\antigravity\mcp_config.json
-
