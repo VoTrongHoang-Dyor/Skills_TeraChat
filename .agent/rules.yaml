@@ -1,11 +1,16 @@
 # TeraChat Agent Constitution
 # Global Rules for all Agents
+# Primary source of truth: TERACHAT.md (trigger: always_on)
+
+constitution_file: "TERACHAT.md"
 
 global_rules:
+  - "CONSTITUTION_FIRST: Always apply TERACHAT.md rules before any action."
   - "CONTEXT_FIRST: Always read task.md and relevant SKILL.md before answering."
   - "SECURITY_HARD: Zero PII in logs. Zeroize memory after use."
   - "STYLE_PRINCIPAL: Be concise. No tutorials. Focus on decision making (ADR)."
   - "LOCAL_FIRST: Assume offline environment. No external CDNs."
   - "DESKTOP_FIRST: Optimize for Runtime Performance (Virtualization) over Bundle Size."
+  - "AGENT_ANNOUNCE: Print '🤖 Applying knowledge of @[agent-name]...' before every technical response."
 
 output_format: "JSON_STRUCTURED"
