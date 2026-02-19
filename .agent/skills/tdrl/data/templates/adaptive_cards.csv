@@ -1,0 +1,23 @@
+Template_ID,Card_Name_VI,Card_Name_EN,WASM_Asset_Path,Trigger_Command,Trigger_Alert_ID,Required_Role,Scope,Collapsible,Version
+# ─── APPROVAL CARDS ───────────────────────────────────────────────────────────
+CARD_APPROVE_REQUEST,Form Duyệt Yêu Cầu,Approval Request Form,assets/cards/approve_request.wasm,/approve,,Manager|Director|CFO|CEO,ZONE_1|ZONE_2,true,1.0.0
+CARD_SIGN_DOCUMENT,Form Ký Tài Liệu,Document Signing Form,assets/cards/sign_document.wasm,/sign,,All,ZONE_1,false,1.0.0
+CARD_REJECT_REQUEST,Form Từ Chối Yêu Cầu,Rejection Form,assets/cards/reject_request.wasm,/reject,,Manager|Director|CFO|CEO,ZONE_1|ZONE_2,true,1.0.0
+# ─── FINANCE CARDS ────────────────────────────────────────────────────────────
+CARD_BONUS_PAYOUT,Form Thưởng Nóng,Bonus Payout Form,assets/cards/bonus_payout.wasm,/bonus,,CFO|CEO,ZONE_1,false,1.0.0
+CARD_INVOICE_VIEWER,Xem và Ký Hóa Đơn,Invoice Viewer & Signer,assets/cards/invoice_viewer.wasm,/invoice,,Finance|Manager|CFO,ZONE_1,true,1.0.0
+CARD_POS_TERMINAL,Máy Bán Hàng (POS),Point-of-Sale Terminal,assets/cards/pos_terminal.wasm,/pos,,Cashier|Manager,ZONE_1,false,1.0.0
+# ─── SECURITY ALERT CARDS ─────────────────────────────────────────────────────
+CARD_ALERT_DEAD_MAN,Cảnh Báo: Dead Man Switch,Alert: Dead Man Switch Triggered,assets/cards/alert_critical.wasm,,SEC_DEAD_MAN_SWITCH,Admin,ZONE_1,false,1.0.0
+CARD_ALERT_COUNTER_MISMATCH,Cảnh Báo: Counter Mismatch,Alert: Hardware Counter Mismatch,assets/cards/alert_critical.wasm,,SEC_COUNTER_MISMATCH,Admin,ZONE_1,false,1.0.0
+CARD_ALERT_OVERLAY,Cảnh Báo: Tấn Công Overlay,Alert: Overlay Attack Detected,assets/cards/alert_high.wasm,,SEC_OVERLAY_ATTACK,All,ZONE_1,false,1.0.0
+CARD_DIGITAL_BUNKER,Màn Hình Bảo Vệ: Digital Bunker,Privacy Screen: Digital Bunker,assets/cards/digital_bunker.wasm,,SEC_SCREENSHOT_ATTEMPT,All,ZONE_1|ZONE_2,false,1.0.0
+CARD_RESOURCE_TAMPER,Cảnh Báo: Cấu Hình Bị Can Thiệp,Alert: Resource Config Tampered,assets/cards/alert_critical.wasm,,SEC_RESOURCE_TAMPER,Admin,ZONE_1,false,1.0.0
+# ─── REPORTING CARDS ──────────────────────────────────────────────────────────
+CARD_INVENTORY_REPORT,Báo Cáo Tồn Kho,Inventory Report,assets/cards/inventory_report.wasm,,,Warehouse|Manager,ZONE_1,true,1.0.0
+CARD_AUDIT_LOG_VIEWER,Xem Audit Log,Audit Log Viewer,assets/cards/audit_log.wasm,/audit,,Admin|CFO,ZONE_1,true,1.0.0
+CARD_SYNC_STATUS,Trạng Thái Đồng Bộ TDRL,TDRL Sync Status Dashboard,assets/cards/tdrl_sync_status.wasm,/resource sync,,Admin,ZONE_1,false,1.0.0
+# ─── PRODUCTIVITY CARDS ───────────────────────────────────────────────────────
+CARD_TASK_CREATE,Tạo Nhiệm Vụ Nhanh,Quick Task Creator,assets/cards/task_create.wasm,/task,,All,ZONE_1|ZONE_2,true,1.0.0
+CARD_AI_RESPONSE,Phản Hồi AI Trong Chat,AI Response In-Chat,assets/cards/ai_response.wasm,/ai,,All,ZONE_1|ZONE_2,true,1.0.0
+CARD_EXPORT_LOG,Xuất Audit Log,Export Audit Log,assets/cards/export_log.wasm,/export,,Admin|CFO,ZONE_1,false,1.0.0

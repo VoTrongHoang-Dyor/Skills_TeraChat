@@ -1,0 +1,32 @@
+Command,Description_VI,Description_EN,Required_Role,OPA_Policy_Ref,Scope,Confirmation_Required,Biometric_Required,Availability_Zone
+# ─── APPROVAL & SIGNING ───────────────────────────────────────────────────────
+/approve,Duyệt yêu cầu đang chờ phê duyệt,Approve a pending request,Manager|Director|CFO|CEO,terachat.authz.approve,ZONE_1|ZONE_2,true,true,1|2
+/sign,Ký số tài liệu chính thức,Digitally sign an official document,All,terachat.authz.sign,ZONE_1,true,true,1
+/reject,Từ chối yêu cầu đang chờ phê duyệt,Reject a pending request,Manager|Director|CFO|CEO,terachat.authz.approve,ZONE_1|ZONE_2,true,false,1|2
+/escalate,Leo thang yêu cầu lên cấp trên,Escalate a request to higher authority,All,terachat.authz.escalate,ZONE_1|ZONE_2,false,false,1|2
+# ─── FINANCE & PAYOUTS ────────────────────────────────────────────────────────
+/bonus [email] [amount],Phê duyệt thưởng nóng qua PayPal,Approve bonus payout via PayPal,CFO|CEO,terachat.authz.payout,ZONE_1,true,true,1
+/pos,Mở giao diện máy bán hàng (POS),Open Point-of-Sale interface,Cashier|Manager,terachat.authz.pos,ZONE_1,false,false,1
+/invoice [id],Xem và ký hóa đơn theo mã số,View and sign invoice by ID,Finance|Manager|CFO,terachat.authz.invoice,ZONE_1,true,true,1
+# ─── SECURITY & ADMIN ─────────────────────────────────────────────────────────
+/wipe [device_id],Kích hoạt Remote Wipe trên thiết bị chỉ định,Trigger Remote Wipe on specified device,Admin,terachat.security.remote_wipe,ZONE_1,true,true,1
+/revoke [user_email],Thu hồi quyền truy cập của nhân viên ngay lập tức,Immediately revoke employee access,Admin,terachat.authz.revoke,ZONE_1|ZONE_2,true,true,1|2
+/lock [channel],Khóa kênh chat khẩn cấp,Emergency lock a chat channel,Admin|Director,terachat.security.channel_lock,ZONE_1,true,false,1
+/audit [user_email],Xem Audit Log của người dùng,View Audit Log for a user,Admin|CFO,terachat.dlp.audit,ZONE_1,false,false,1
+/attest,Yêu cầu thiết bị gửi Remote Attestation ngay lập tức,Request immediate Remote Attestation from device,Admin,terachat.security.attestation,ZONE_1,false,false,1
+# ─── COMMUNICATION ────────────────────────────────────────────────────────────
+/call [user_email],Gọi thoại HD E2EE cho người dùng,Start HD E2EE voice call with user,All,terachat.comm.call,ZONE_1|ZONE_2|ZONE_3,false,false,1|2|3
+/meet,Tạo phòng họp video E2EE cho nhóm,Create E2EE group video conference,Manager|Admin|All,terachat.comm.video,ZONE_1|ZONE_2,false,false,1|2
+/mention [user],Tag và thông báo cho người dùng,Mention and notify a user,All,terachat.comm.notify,ZONE_1|ZONE_2|ZONE_3,false,false,1|2|3
+# ─── PRODUCTIVITY ─────────────────────────────────────────────────────────────
+/task [title],Tạo nhiệm vụ nhanh trong channel hiện tại,Create a quick task in current channel,All,terachat.productivity.tasks,ZONE_1,false,false,1
+/remind [time] [message],Đặt nhắc nhở cá nhân,Set a personal reminder,All,terachat.productivity.remind,ZONE_1|ZONE_2,false,false,1|2
+/search [keyword],Tìm kiếm trong lịch sử tin nhắn,Search message history,All,terachat.search,ZONE_1|ZONE_2,false,false,1|2
+/export [channel] [date_range],Xuất Audit Log kênh chat (Compliance),Export channel Audit Log (Compliance),Admin|CFO,terachat.dlp.export,ZONE_1,true,true,1
+# ─── AI GATEWAY ───────────────────────────────────────────────────────────────
+/ai [prompt],Gửi yêu cầu tới AI Bot trong nhóm (qua Gateway),Send request to AI Bot in group (via Gateway),All,terachat.ai_gateway.query,ZONE_1|ZONE_2,false,false,1|2
+/summarize [range],Yêu cầu AI tóm tắt đoạn hội thoại được chọn,Ask AI to summarize selected conversation,All,terachat.ai_gateway.summarize,ZONE_1|ZONE_2,false,false,1|2
+# ─── RESOURCE MANAGEMENT (TDRL Admin) ────────────────────────────────────────
+/resource sync,Kích hoạt Delta Sync cấu hình tài nguyên từ Cluster,Trigger resource config Delta Sync from Cluster,Admin,terachat.tdrl.sync,ZONE_1,true,false,1
+/resource verify,Xác minh chữ ký Ed25519 của file cấu hình hiện tại,Verify Ed25519 signature of current resource config,Admin,terachat.tdrl.verify,ZONE_1,false,false,1
+/resource rollback [version],Khôi phục cấu hình tài nguyên về phiên bản trước,Rollback resource config to a previous version,Admin,terachat.tdrl.rollback,ZONE_1,true,true,1

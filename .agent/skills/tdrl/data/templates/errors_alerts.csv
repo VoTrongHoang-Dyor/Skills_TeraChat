@@ -1,0 +1,27 @@
+Alert_ID,Category,Trigger_Event,Severity,Message_VI,Message_EN,Auto_Action,OPA_Policy_Ref,TTL_Seconds,Recoverable
+# ─── KEY & CRYPTO ERRORS ──────────────────────────────────────────────────────
+E2EE_DECRYPT_FAIL,E2EE,message.decrypt.failed,ERROR,Không thể giải mã tin nhắn. Phiên làm việc có thể đã hết hạn.,Unable to decrypt message. Session may have expired.,Notify_User,terachat.authz.session,0,true
+E2EE_KEY_ROTATION_FAIL,E2EE,epoch.rotation.failed,CRITICAL,Xoay vòng khóa thất bại. Nhóm tạm thời bị khóa.,Key rotation failed. Group temporarily locked.,Lock_Group,terachat.authz.group_key,300,true
+E2EE_INVALID_SIGNATURE,E2EE,message.signature.invalid,CRITICAL,Chữ ký không hợp lệ. Tin nhắn có thể bị giả mạo.,Invalid signature detected. Message may be forged.,Drop_Message,terachat.authz.signing,0,false
+# ─── IDENTITY & AUTH ERRORS ───────────────────────────────────────────────────
+AUTH_TOKEN_EXPIRED,AUTH,session.token.expired,WARNING,Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.,Session token expired. Please sign in again.,Force_Reauth,terachat.authz.session,0,true
+AUTH_DEVICE_NOT_BOUND,AUTH,device.binding.missing,ERROR,Thiết bị chưa được liên kết với tài khoản doanh nghiệp.,Device not bound to enterprise account.,Block_Access,terachat.authz.device,0,true
+AUTH_INVITE_TOKEN_USED,AUTH,invite.token.replay,CRITICAL,Token mời đã được sử dụng. Nghi ngờ tấn công Replay.,Invite token already used. Possible replay attack.,Invalidate_Token,terachat.authz.invite,0,false
+AUTH_BIOMETRIC_LOCKOUT,AUTH,biometric.lockout,CRITICAL,Xác thực sinh trắc học thất bại quá nhiều lần. Tài khoản bị tạm khóa.,Biometric authentication failed too many times. Account temporarily locked.,Freeze_Account,terachat.authz.biometric,1800,true
+# ─── SECURITY ALERTS ──────────────────────────────────────────────────────────
+SEC_DEAD_MAN_SWITCH,SECURITY,counter.grace_period.expired,CRITICAL,Thiết bị chưa kết nối xác minh trong 72 giờ. Kích hoạt khóa khẩn cấp.,Device has not verified in 72 hours. Activating emergency lock.,Freeze_Device,terachat.security.dead_man,0,false
+SEC_COUNTER_MISMATCH,SECURITY,hardware.counter.mismatch,CRITICAL,Phát hiện bộ đếm phần cứng không khớp. Thiết bị có thể bị sao chép hoặc rollback.,Hardware counter mismatch detected. Device may be cloned or reverted.,Poison_Pill,terachat.security.counter,0,false
+SEC_EPOCH_REVOKED,SECURITY,mls.epoch.user_removed,CRITICAL,Tài khoản của bạn đã bị thu hồi khỏi nhóm bởi Admin.,Your account has been revoked from the group by Admin.,Remote_Wipe,terachat.security.epoch_revoke,0,false
+SEC_REMOTE_WIPE_TRIGGERED,SECURITY,admin.remote_wipe.command,CRITICAL,Lệnh xóa dữ liệu từ xa đã được Admin kích hoạt. Đang xóa dữ liệu cục bộ...,Remote wipe command issued by Admin. Erasing local data...,Remote_Wipe,terachat.security.remote_wipe,0,false
+SEC_OVERLAY_ATTACK,SECURITY,ui.overlay.detected,HIGH,Phát hiện cửa sổ đè lên giao diện. Tính năng Smart Approval bị vô hiệu hóa.,Overlay window detected. Smart Approval has been disabled.,Disable_Smart_Approval,terachat.security.overlay,60,true
+SEC_SCREENSHOT_ATTEMPT,SECURITY,os.screenshot.triggered,HIGH,Phát hiện cố gắng chụp màn hình. Màn hình bảo vệ đã được kích hoạt.,Screenshot attempt detected. Privacy screen activated.,Show_Digital_Bunker,terachat.security.screenshot,30,true
+SEC_ROOT_JAILBREAK,SECURITY,attestation.integrity.fail,CRITICAL,Thiết bị không vượt qua kiểm tra tính toàn vẹn. Kết nối bị từ chối.,Device failed integrity check. Connection refused.,Block_Handshake,terachat.security.attestation,0,false
+SEC_RESOURCE_TAMPER,SECURITY,resource_config.hash.mismatch,CRITICAL,File cấu hình tài nguyên bị thay đổi. Hash không khớp với chữ ký Ed25519.,Resource config file tampered. Hash does not match Ed25519 signature.,Quarantine_Config,terachat.security.tdrl,0,false
+# ─── NETWORK ERRORS ───────────────────────────────────────────────────────────
+NET_CLUSTER_UNREACHABLE,NETWORK,cluster.connection.failed,WARNING,Không thể kết nối đến Private Cluster. Đang chuyển sang chế độ Offline.,Cannot reach Private Cluster. Switching to Offline mode.,Offline_Mode,terachat.network.cluster,30,true
+NET_RELAY_QUOTA_EXCEEDED,NETWORK,relay.bandwidth.exceeded,WARNING,Băng thông Relay Server đã đạt giới hạn. Tin nhắn sẽ được gửi qua hàng đợi.,Relay bandwidth quota exceeded. Messages will be queued.,Queue_Message,terachat.network.relay,60,true
+NET_TURN_FAILOVER,NETWORK,turn.node.unreachable,WARNING,Node TURN Relay đã ngừng hoạt động. Đang chuyển sang node dự phòng.,TURN Relay node is down. Failing over to standby node.,Auto_Failover,terachat.network.turn,3,true
+NET_DELTA_SYNC_FAIL,NETWORK,tdrl.delta_update.failed,ERROR,Cập nhật Delta bị thất bại. File cấu hình tài nguyên chưa được tải.,Delta update failed. Resource config not loaded.,Retry_With_Backoff,terachat.tdrl.sync,300,true
+# ─── DLP & COMPLIANCE ─────────────────────────────────────────────────────────
+DLP_EXTERNAL_SHARE_BLOCKED,DLP,file.external_share.attempted,HIGH,Hành động chia sẻ file ra ngoài tổ chức bị chặn theo chính sách DLP.,File sharing outside organization blocked by DLP policy.,Block_Transfer,terachat.dlp.external,0,true
+DLP_ZONE2_AUDIT_REQUIRED,DLP,federation.message.sent,INFO,Tin nhắn đã được ghi vào Audit Log (Vùng 2 — Đối ngoại).,Message recorded in Audit Log (Zone 2 — External).,Append_Audit_Log,terachat.dlp.audit,0,true
