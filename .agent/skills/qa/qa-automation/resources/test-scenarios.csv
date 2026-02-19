@@ -1,0 +1,17 @@
+Test_ID,Layer,Suite_Name,Scenario_VI,Test_Command,Pass_Threshold,Fail_Action,Spec_Ref
+T001,E2E,messaging_e2e,Chat 1-1 cơ bản — gửi nhận văn bản,npx playwright test --grep @chat_1_1,100% pass,Block merge,Section 2.1
+T002,E2E,messaging_e2e,Chat nhóm (max 50 thành viên) — gửi nhận văn bản,npx playwright test --grep @chat_group,100% pass,Block merge,Section 2.1
+T003,Security,security_audit,Wireshark sniff — phát hiện plaintext trong network packet,python scripts/fuzz_test.py --scope network,Zero plaintext detected,Block merge immediately,Section 2.1
+T004,Security,security_audit,PII leak scan — quét log file sau test run,python scripts/security_audit.py,Zero PII in logs,Block merge immediately,Section 2.7
+T005,Security,security_audit,Memory dump check — verify key material đã Zeroized,python scripts/mem_check.py,Zero key material remnants,Block merge immediately,Section 2.3
+T006,Performance,performance_threshold,Cold start — đo thời gian từ launch đến first frame,npx playwright test --grep @cold_start,< 2000ms,Warning (non-blocking),Section 1.4
+T007,Performance,performance_threshold,Encryption latency — thời gian từ Enter đến packet on wire,npx playwright test --grep @encrypt_latency,< 50ms trên CPU i5,Reject build if > 200ms,Section 2.1
+T008,Chaos,chaos_recovery,Kill Node giữa chừng — upload 100MB file drop 33% cluster,python scripts/test_runner.py --suite chaos,File received intact,Block merge,Section 1.1
+T009,Chaos,chaos_recovery,Node restart liên tục — inject failure mỗi 30s,python scripts/test_runner.py --suite chaos_storm,Zero data loss,Block merge,Section 1.1
+T010,Unit,unit_core,Zeroize test — verify struct wipe sau Drop,cargo test --features test-zeroize,All key fields = 0x00,Block merge,Section 2.3
+T011,Unit,unit_core,FFI boundary test — send malformed len từ C,cargo test --features ffi-fuzz,Zero panic bypass FFI,Block merge,Section 2.7
+T012,Integration,integration_auth,SCIM provisioning — xóa employee trigger Thu hồi quyền,npx playwright test --grep @scim_revoke,Revoked within 15 minutes,Block merge,Section 3.3
+T013,Integration,integration_auth,Dead Man Switch — device offline 73h → verify Freeze,npx playwright test --grep @dead_man_switch,Device frozen at 72h,Block merge,Section 2.1
+T014,Regression,regression,Visual regression — so sánh UI screenshot với baseline,npx playwright test --grep @visual,Zero unintended pixel change,Warning (manual review),Section 1.4
+T015,Security,wasm_isolation,WASM syscall boundary — verify .tapp không escape sandbox,python scripts/security_audit.py --scope wasm,Zero OS syscall from WASM,Block merge immediately,Section 5.1
+T016,Load,load_test,1000 concurrent messages — stress test cluster,python scripts/test_runner.py --suite load,< 100ms p99 latency,Warning,Section 1.1

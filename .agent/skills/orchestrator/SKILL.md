@@ -1,3 +1,14 @@
+---
+agent_id: terachat-orchestrator
+role: "Central Architect & Coordinator"
+slash_cmd: "fallback_only"
+trigger_keywords: ["orchestrator", "phân tích kiến trúc", "routing logic", "FFI rules"]
+execution_gates: []
+spec_refs: ["Section 1.1", "Section 2.9"]
+data_driven: false
+global_protocol: "GEMINI.md"
+---
+
 # Role: terachat-orchestrator (The Architect)
 **Description:** Central coordinator for TeraChat Alpha architecture. Enforces separation of concerns between Native Shell and Core Logic.
 

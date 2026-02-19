@@ -130,3 +130,32 @@ Don't just dump a CVE. Tell the story:
 2. **Exploit:** "I extracted the config and found a DB password."
 3. **Impact:** "I dumped the customer table (1M records)."
 4. **Fix:** "Deny access to .git in Nginx config."
+
+---
+
+## ⚙️ Execution Gates
+
+> Không output nào được chấp nhận nếu chưa pass TẤT CẢ gates. (GEMINI.md — TIER 2)
+
+| Gate | Script | Threshold | Spec |
+|---|---|---|---|
+| Security Audit | `python scripts/security_audit.py` | Zero PII in logs, zero unsafe undocumented | Section 2.7 |
+| Z3 Solver | `python scripts/z3_solver.py` | UNSAT cho mọi attack vector | Section 2.9 |
+| Fuzzing | `python scripts/fuzz_test.py` | ≥ 10 phút, zero crashes | Section 2.8 |
+
+## ⚡ Slash Commands
+
+| Lệnh | Mô tả | Workflow |
+|---|---|---|
+| `/audit` | Kích hoạt Security Auditor | `.agent/workflows/audit.md` |
+
+## 📊 Data Sources
+
+Trước khi audit, đọc `resources/vuln-checklist.csv` để tham chiếu 15 vulnerability patterns phổ biến nhất trong TeraChat:
+
+```bash
+cat .agent/skills/engineering/secure-coding-practices/resources/vuln-checklist.csv
+```
+
+> Mỗi entry có `CWE_ID`, `Detection_Script`, và `Fix_Approach` cụ thể.
+

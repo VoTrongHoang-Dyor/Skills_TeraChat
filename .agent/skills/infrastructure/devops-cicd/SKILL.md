@@ -68,3 +68,34 @@ Tôi hoạt động theo nguyên tắc "Hybrid Deployment", tự động thích 
 
 - **Mô tả:** Kiểm tra chữ ký số của gói cài đặt trước khi giải nén.
 - **Logic:** So sánh Hash của file `.tar.gz` với chữ ký từ SecOps HSM.
+
+---
+
+## ⚙️ Execution Gates
+
+> Không deploy nào được thực thi nếu chưa pass các gates từ `resources/infra-gates.csv`. (GEMINI.md — TIER 2)
+
+| Gate | Script | Threshold | Tier |
+|---|---|---|---|
+| Cluster Health | `curl .../health` | 100% nodes healthy | Tier 1 |
+| Artifact Signature | `python scripts/security_audit.py --scope artifact` | Ed25519 valid | All |
+| Key Persistence | `python scripts/mem_check.py --scope enclave` | Company_Key intact | All |
+| Chaos Resilience | `python scripts/test_runner.py --suite chaos` | Recover after 30% node kill | Post-Deploy |
+
+## ⚡ Slash Commands
+
+| Lệnh | Mô tả | Workflow |
+|---|---|---|
+| `/infra` | Kích hoạt DevOps Architect | `.agent/workflows/infra.md` |
+| `/build` | Build trong môi trường sạch | `.agent/workflows/build.md` |
+
+## 📊 Data Sources
+
+Trước khi deploy, đọc `resources/infra-gates.csv` để biết đầy đủ 12 gates bắt buộc:
+
+```bash
+cat .agent/skills/infrastructure/devops-cicd/resources/infra-gates.csv
+```
+
+> Mỗi gate có `Gate_ID`, `Script_Command`, `Pass_Threshold`, `Fail_Action`, và `Deployment_Tier`.
+

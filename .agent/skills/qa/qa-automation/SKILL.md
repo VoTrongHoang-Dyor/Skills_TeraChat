@@ -128,3 +128,33 @@ Every test must follow this structure:
 - Use for: Design Systems, Landing Pages.
 - Command: `expect(page).toHaveScreenshot()`
 - Rule: If pixels change, the test fails. Review diffs manually.
+
+---
+
+## ⚙️ Execution Gates
+
+> Không Pipeline nào được Merge nếu chưa pass TẤT CẢ gates này. (GEMINI.md — TIER 2)
+
+| Gate | Script | Threshold | Spec |
+|---|---|---|---|
+| Full Test Suite | `python scripts/test_runner.py` | Coverage ≥ 80%, zero security test failures | — |
+| Leakage Prevention | Wireshark/Mitmproxy sniff suite | Zero plaintext detected on wire | Section 2.1 |
+| Memory Check | `python scripts/mem_check.py` | Zero key material remnants | Section 2.3 |
+
+## ⚡ Slash Commands
+
+| Lệnh | Mô tả | Workflow |
+|---|---|---|
+| `/qa` | Kích hoạt QA Engineer | `.agent/workflows/qa.md` |
+| `/test` | Chạy full test pipeline | `.agent/workflows/test.md` |
+
+## 📊 Data Sources
+
+Trước khi viết test, đọc `resources/test-scenarios.csv` để lấy danh sách 16 kịch bản test chuẩn:
+
+```bash
+cat .agent/skills/qa/qa-automation/resources/test-scenarios.csv
+```
+
+> Mỗi row có `Suite_Name`, `Test_Command`, `Pass_Threshold`, và `Fail_Action` để auto-configure CI pipeline.
+

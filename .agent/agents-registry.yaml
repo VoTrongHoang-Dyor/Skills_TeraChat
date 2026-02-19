@@ -1,0 +1,240 @@
+# TeraChat Agent Registry
+# Source of truth for TIER 0 Request Classifier & Agent Routing (GEMINI.md)
+# Referenced by: GEMINI.md, orchestrator/SKILL.md, router_guide.md
+# Format: agent_id, skill_path, slash_cmd, trigger_keywords, execution_gates, spec_refs
+
+agents:
+  - id: tauri-desktop-specialist
+    role: "UI/UX Architect (Tauri + Stitch)"
+    skill_path: "skills/ui-architect/"
+    slash_cmd: "/ui"
+    trigger_keywords:
+      - "vẽ UI"
+      - "list view"
+      - "layout"
+      - "component"
+      - "Stitch"
+      - "thêm nút"
+      - "design"
+      - "màu sắc"
+      - "typography"
+    execution_gates:
+      - gate: "XSS Visual Audit"
+        script: "python scripts/security_audit.py --scope ui"
+        threshold: "Zero XSS injection vectors"
+    spec_refs: ["Section 1.4", "Section 5.1"]
+    output_format: "UI Component (HTML/Tauri + Rust binding)"
+    data_sources:
+      - "skills/ui-architect/resources/colors.csv"
+      - "skills/ui-architect/resources/typography.csv"
+      - "skills/ui-architect/resources/ui-reasoning.csv"
+
+  - id: rust-core-engineer
+    role: "Backend Core Rust Specialist"
+    skill_path: "skills/engineering/backend-core-rust/"
+    slash_cmd: "/backend"
+    trigger_keywords:
+      - "xử lý file"
+      - "tối ưu RAM"
+      - "SQLite"
+      - "CRDT"
+      - "FFI"
+      - "sync"
+      - "mlock"
+      - "zeroize"
+      - "Rust"
+    execution_gates:
+      - gate: "Memory Safety"
+        script: "python scripts/mem_check.py"
+        threshold: "Zero leaks, all key structs Zeroized"
+        spec_ref: "Section 2.3"
+      - gate: "Fuzzing"
+        script: "python scripts/fuzz_test.py"
+        threshold: "≥ 10 minutes, zero crashes"
+        spec_ref: "Section 2.8"
+      - gate: "Clippy"
+        script: "cargo clippy -- -D warnings"
+        threshold: "Zero warnings"
+    spec_refs: ["Section 2.1", "Section 2.2", "Section 2.3", "Section 2.7"]
+    output_format: "Rust source code + Cargo.toml dependencies"
+    data_sources:
+      - "skills/engineering/backend-core-rust/resources/crypto-patterns.csv"
+
+  - id: crypto-security-auditor
+    role: "Security & Cryptography Auditor"
+    skill_path: "skills/engineering/secure-coding-practices/"
+    slash_cmd: "/audit"
+    trigger_keywords:
+      - "mã hóa"
+      - "P2P"
+      - "Cluster"
+      - "Key"
+      - "MLS"
+      - "attestation"
+      - "bảo mật"
+      - "lỗ hổng"
+      - "CVE"
+    execution_gates:
+      - gate: "Security Audit"
+        script: "python scripts/security_audit.py"
+        threshold: "Zero PII in logs, zero unsafe blocks undocumented"
+        spec_ref: "Section 2.7"
+      - gate: "Z3 Solver"
+        script: "python scripts/z3_solver.py"
+        threshold: "UNSAT for all attack vectors"
+        spec_ref: "Section 2.9"
+    spec_refs: ["Section 2.4", "Section 2.6", "Section 3.3"]
+    output_format: "Security analysis + hardened Rust/Implementation code"
+    data_sources:
+      - "skills/engineering/secure-coding-practices/resources/vuln-checklist.csv"
+
+  - id: wasm-sandbox-architect
+    role: "WASM Sandbox & Mini-App Architect"
+    skill_path: "skills/engineering/"
+    slash_cmd: "/bridge"
+    trigger_keywords:
+      - "WASM"
+      - "Tiện ích"
+      - "Marketplace"
+      - ".tapp"
+      - "sandbox"
+      - "mini-app"
+    execution_gates:
+      - gate: "WASM Isolation Check"
+        script: "python scripts/security_audit.py --scope wasm"
+        threshold: "No OS syscall escapes from WASM boundary"
+        spec_ref: "Section 5.1"
+    spec_refs: ["Section 5.1", "Section 5.11"]
+    output_format: ".tapp module + isolation logic"
+
+  - id: ai-gateway-guard
+    role: "AI Gateway & PII Redaction Guard"
+    skill_path: "skills/ai-data/ai-gateway-guard/"
+    slash_cmd: "/guard"
+    trigger_keywords:
+      - "PII"
+      - "redact"
+      - "prompt"
+      - "AI bot"
+      - "BYOK"
+      - "LLM"
+      - "Zero-Retention"
+    execution_gates:
+      - gate: "PII Leak Scan"
+        script: "python scripts/security_audit.py --scope pii"
+        threshold: "Zero raw PII in outbound API calls"
+        spec_ref: "Section 5.8"
+    spec_refs: ["Section 5.8"]
+    output_format: "Gateway Middleware code + Dual-Mask config"
+
+  - id: devops-architect
+    role: "DevOps & Infrastructure Architect"
+    skill_path: "skills/infrastructure/devops-cicd/"
+    slash_cmd: "/infra"
+    trigger_keywords:
+      - "deploy"
+      - "Helm"
+      - "cluster"
+      - "Terraform"
+      - "Docker"
+      - "CI/CD"
+      - "pipeline"
+      - "VPS"
+    execution_gates:
+      - gate: "Cluster Chaos Drill"
+        script: "python scripts/test_runner.py --suite chaos"
+        threshold: "Recover after 30% node failure"
+        spec_ref: "Section 1.1"
+    spec_refs: ["Section 1.1", "Section 4.4"]
+    output_format: "K8s Helm chart, IaC (Terraform), Docker Compose"
+    data_sources:
+      - "skills/infrastructure/devops-cicd/resources/infra-gates.csv"
+
+  - id: product-manager
+    role: "Product Manager & Feature Strategist"
+    skill_path: "skills/product/"
+    slash_cmd: "/product"
+    trigger_keywords:
+      - "tính năng mới"
+      - "roadmap"
+      - "reseller"
+      - "onboarding"
+      - "PRD"
+      - "user story"
+      - "feature"
+    execution_gates: []
+    spec_refs: ["Section 1.6"]
+    output_format: "PRD, Feature Spec (Markdown)"
+
+  - id: technical-writer
+    role: "Technical Documentation Writer"
+    skill_path: "skills/documentation/"
+    slash_cmd: "/doc"
+    trigger_keywords:
+      - "viết docs"
+      - "README"
+      - "spec"
+      - "RFC"
+      - "tài liệu"
+      - "markdown"
+    execution_gates: []
+    spec_refs: []
+    output_format: "Markdown document, RFC"
+
+  - id: tdrl-engine
+    role: "Dynamic Resource Loader (TDRL)"
+    skill_path: "skills/tdrl/"
+    slash_cmd: "/tdrl"
+    trigger_keywords:
+      - "alert"
+      - "slash cmd"
+      - "CSV config"
+      - "error code"
+      - "TDRL"
+      - "resource update"
+    execution_gates:
+      - gate: "Signature Verify"
+        script: "internal: resource_loader::verify_signature()"
+        threshold: "Ed25519 signature valid"
+        spec_ref: "Section 5.10"
+    spec_refs: ["Section 5.10", "Section 5.11"]
+    output_format: "Updated CSV templates"
+
+  - id: qa-engineer
+    role: "QA Automation Engineer (Paranoid Tester)"
+    skill_path: "skills/qa/qa-automation/"
+    slash_cmd: "/qa"
+    trigger_keywords:
+      - "test"
+      - "fuzz"
+      - "unit test"
+      - "E2E"
+      - "kiểm tra"
+      - "Playwright"
+      - "coverage"
+    execution_gates:
+      - gate: "Full Test Suite"
+        script: "python scripts/test_runner.py"
+        threshold: "Coverage ≥ 80%, zero security test failures"
+    spec_refs: ["Section 2.8"]
+    output_format: "Test scripts, coverage report"
+    data_sources:
+      - "skills/qa/qa-automation/resources/test-scenarios.csv"
+
+# ---
+# Routing Priority (khi request match nhiều agent):
+# 1. Security keywords → crypto-security-auditor (overrides all)
+# 2. Explicit /slash-cmd → exact match agent
+# 3. Domain keywords → most specific match
+# 4. Fallback → terachat-orchestrator (skills/orchestrator/)
+routing_priority:
+  security_override: true
+  fallback_agent: "orchestrator"
+
+# Orchestrator (không có slash_cmd vì không cần kích hoạt thủ công)
+orchestrator:
+  id: terachat-orchestrator
+  role: "Central Architect & Coordinator"
+  skill_path: "skills/orchestrator/"
+  trigger: "fallback_only"
+  spec_refs: ["Section 1.1"]

@@ -1,0 +1,13 @@
+Gate_ID,Gate_Name,Category,Script_Command,Pass_Threshold,Fail_Action,Deployment_Tier,Spec_Ref
+G001,Cluster_Health_Check,Pre_Flight,curl -s https://cluster.internal/health | jq .status == "healthy",100% nodes healthy,ABORT_DEPLOY,Tier1,Section 1.1
+G002,Artifact_Signature_Verify,Pre_Flight,python scripts/security_audit.py --scope artifact,Ed25519 signature valid for all binaries,ABORT_DEPLOY,All,Section 2.4
+G003,No_Public_Registry_Pull,Supply_Chain,"grep -rn 'docker pull' .github/workflows/",Zero results — no public docker pull,BLOCK_PR,All,Section 1.1
+G004,Rolling_Update_Rebalance,Deploy_Tier1,curl -s https://cluster.internal/erasure-status | jq .rebalanced == true,Erasure coding rebalanced = true before next node,WAIT (blocking),Tier1,Section 1.1
+G005,Blue_Green_Stability,Deploy_Tier2,python scripts/test_runner.py --suite smoke --target green,100% smoke tests pass on Green cluster,ROLLBACK_TO_BLUE,Tier2,Section 1.1
+G006,Key_Persistence_Check,Post_Deploy,python scripts/mem_check.py --scope enclave,Company_Key still intact in TPM/Enclave,CRITICAL_ALERT,All,Section 2.4
+G007,Zero_Downtime_Verify,Deploy_Tier2,python scripts/test_runner.py --suite connection_continuity,Zero client disconnections during switchover,ROLLBACK_TO_BLUE,Tier2,Section 1.1
+G008,Compliance_Lock_Check,Pre_Deploy_Tier2,"curl -s https://cluster.internal/legal-hold | jq .active_holds == 0",No active Legal Hold or Audit Export,DELAY_DEPLOY (wait),Tier2,Section 4.4
+G009,Image_Hash_Verify,Supply_Chain,sha256sum -c artifacts.sha256sums,All artifact hashes match signed manifest,ABORT_DEPLOY,All,Section 2.4
+G010,Chaos_Resilience,Post_Deploy,python scripts/test_runner.py --suite chaos,Recover after 30% node kill within 60s,WARNING,All,Section 1.1
+G011,Rollback_Test,Post_Deploy,python scripts/test_runner.py --suite rollback_verify,Previous version restores cleanly,REQUIRE_FIX_BEFORE_NEXT,All,Section 1.1
+G012,Audit_Log_Tamper_Check,Security,python scripts/security_audit.py --scope auditlog,Audit log hash chain unbroken,CRITICAL_ALERT,All,Section 4.4

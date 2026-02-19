@@ -1,46 +1,64 @@
-# 📘 TÀI LIỆU KỸ NĂNG & VAI TRÒ (TERACHAT AGENT)
+# 📘 TÀI LIỆU KỸ NĂNG & VAI TRÒ (TERACHAT AGENTIC OS)
 
-Đây là danh sách toàn bộ các kỹ năng (Skills), vai trò (Roles) và lệnh tắt (Shortcuts) của Agent TeraChat.
+> **Nguồn chân lý:** `agents-registry.yaml` — routing trung tâm cho GEMINI.md TIER 0.
+> **Global Protocol:** `.agent/GEMINI.md` (`trigger: always_on`) — áp dụng cho MỌI agent.
+
+---
 
 ## 1. 🏗️ Đội Ngũ Kỹ Thuật (Engineering)
 
-| Lệnh Tắt | Skill ID | Vai Trò & Nhiệm Vụ |
+| Slash CMD | Agent ID | Vai Trò | Data-Driven | Execution Gates |
+| :--- | :--- | :--- | :---: | :--- |
+| `/backend` | `rust-core-engineer` | **Pháo Đài Số** — Rust Core, Crypto, FFI. _Paranoid Security._ | ✅ `crypto-patterns.csv` | `mem_check`, `fuzz_test`, `clippy` |
+| `/fintech` | `wasm-sandbox-architect` | **Người Vận Chuyển Mù** — Fintech Bridge, WASM Sandbox, `.tapp` module. | ❌ | `security_audit --scope wasm` |
+| `/bridge` | `native-bridge-apple` | **Cầu Nối Apple** — Swift/macOS, Secure Enclave, Biometrics. | ❌ | `security_audit` |
+| — | `native-bridge-windows` | **Cầu Nối Windows** — WinRT, TPM, VirtualLock. | ❌ | `security_audit` |
+
+## 2. 🛡️ Bảo Mật (Security)
+
+| Slash CMD | Agent ID | Vai Trò | Data-Driven | Execution Gates |
+| :--- | :--- | :--- | :---: | :--- |
+| `/audit` | `crypto-security-auditor` | **Giám Sát Bảo Mật** — Vuln Scanner, Red Team, Memory Hygiene. | ✅ `vuln-checklist.csv` | `security_audit`, `z3_solver`, `fuzz_test` |
+| `/guard` | `ai-gateway-guard` | **Cổng Gác AI** — PII Redaction, Dual-Mask, BYOK, Zero-Retention. | ❌ | `security_audit --scope pii` |
+
+## 3. 🏛️ Kiến Trúc & Giao Diện (Architecture & UI)
+
+| Slash CMD | Agent ID | Vai Trò | Data-Driven | Execution Gates |
+| :--- | :--- | :--- | :---: | :--- |
+| `/ui` | `tauri-desktop-specialist` | **Kiến Trúc Sư Giao Diện** — Tauri, Stitch, List View, Offline-First. | ✅ `colors.csv`, `typography.csv` | `security_audit --scope ui` (XSS) |
+| — | `terachat-orchestrator` | **Nhạc Trưởng** — Routing, FFI Rules, Iron Dome Protocol. Fallback only. | ❌ | — |
+
+## 4. ⚙️ Vận Hành & Kiểm Thử (Operations & QA)
+
+| Slash CMD | Agent ID | Vai Trò | Data-Driven | Execution Gates |
+| :--- | :--- | :--- | :---: | :--- |
+| `/infra` | `devops-architect` | **DevOps** — Hybrid Deploy (Tier 1/2), CI/CD, Air-Gapped. | ✅ `infra-gates.csv` | `security_audit --scope artifact`, `test_runner --suite chaos` |
+| `/qa` | `qa-engineer` | **QA Paranoid** — E2E, Leakage Sniff, Chaos, TDD. | ✅ `test-scenarios.csv` | `test_runner`, Mitmproxy sniff |
+
+## 5. 📦 Tài Liệu & Sản Phẩm
+
+| Slash CMD | Agent ID | Vai Trò | Data-Driven |
+| :--- | :--- | :--- | :---: |
+| `/product` | `product-manager` | **Product Manager** — PRD, Onboarding, Reseller, Feature Flags. | ❌ |
+| `/doc` | `technical-writer` | **Technical Writer** — ADR, RFC, CODEOWNERS, Runbooks. | ❌ |
+
+## 6. 🔄 TDRL (Dynamic Resource Loader)
+
+| Slash CMD | Agent ID | Vai Trò | Data-Driven |
+| :--- | :--- | :--- | :---: |
+| `/tdrl` | `tdrl-engine` | **TDRL** — Cập nhật CSV config động không cần recompile. Ed25519 verify. | ✅ `errors_alerts.csv`, `slash_cmds.csv`, `adaptive_cards.csv` |
+
+---
+
+## 7. 🛠️ CLI Scripts & Workflows
+
+| Lệnh | Script / Workflow | Chức Năng |
 | :--- | :--- | :--- |
-| `/core` | `backend-core-rust` | **Pháo Đài Số (The Fortress)**<br>Phát triển Core Logic bằng Rust. Chịu trách nhiệm mã hóa, quản lý bộ nhớ an toàn (Zeroize).<br>_Nguyên tắc: "Paranoid Security", No-Async Runtime._ |
-| `/fintech` | `backend-fintech-blind` | **Người Vận Chuyển Mù (The Blind Courier)**<br>Xử lý giao dịch tài chính. Chuyển tiếp dữ liệu thanh toán mà không cần giải mã.<br>_Nguyên tắc: Zero-Parse, Blind Idempotency._ |
-| `/ui` | `desktop-tauri-frontend` | **Giao Diện (The Face)**<br>Xây dựng UI Desktop với Tauri & React. Tối ưu trải nghiệm người dùng. |
-| `/bridge` | `native-bridge-apple` | **Cầu Nối Tự Nhiên (The Bridge)**<br>Kết nối Swift/Objective-C trên macOS/iOS. Quản lý Secure Enclave & Biometrics. |
-| - | `native-bridge-windows` | **Cầu Nối Windows**<br>Quản lý tích hợp native trên Windows. |
-
-## 2. 🛡️ Trí Tuệ & Bảo Mật (AI & Security)
-
-| Lệnh Tắt | Skill ID | Vai Trò & Nhiệm Vụ |
-| :--- | :--- | :--- |
-| `/guard` | `ai-gateway-guard` | **Cổng Gác AI (The Firewall)**<br>Chặn và làm sạch dữ liệu nhạy cảm (PII) trước khi gửi ra ngoài.<br>_Giao thức: Tokenization, Anti-Injection._ |
-
-## 3. 🏛️ Kiến Trúc & Thiết Kế (Architecture)
-
-| Lệnh Tắt | Skill ID | Vai Trò & Nhiệm Vụ |
-| :--- | :--- | :--- |
-| `/orch` | `terachat-orchestrator` | **Nhạc Trưởng (The Conductor)**<br>Điều phối lệnh giữa UI, Core và Native. Ngăn chặn Panic.<br>_Giao thức: "Iron Dome" (Vòm Sắt)._ |
-| `/design` | `terachat-ui-architect` | **Kiến Trúc Sư Giao Diện (The Stylist)**<br>Kết hợp thẩm mỹ (Stitch/Shadcn) với bảo mật (TeraChat).<br>_Giao thức: Zero-Latency UI, Offline-First._ |
-
-## 4. ⚙️ Vận Hành & Quy Trình (Operations)
-
-| Lệnh Tắt | Skill ID | Vai Trò & Nhiệm Vụ |
-| :--- | :--- | :--- |
-| `/ops` | `terachat-infrastructure` | **Vận Hành (DevOps)**<br>Quản lý CI/CD, Server, và quy trình Build Hermetic (Khép kín). |
-| - | `terachat-qa` | **Kiểm Thử (QA)**<br>Quy trình kiểm thử chất lượng phần mềm. |
-| - | `terachat-product` | **Sản Phẩm (Product)**<br>Quản lý yêu cầu và định nghĩa tính năng. |
-| `/docs` | `terachat-documentation` | **Tài Liệu (Documentation)**<br>Duy trì "Nguồn sự thật duy nhất" (Single Source of Truth). |
-
-## 5. 🛠️ Công Cụ & Script Hỗ Trợ (Actions)
-
-| Lệnh Tắt | Script / Workflow | Chức Năng |
-| :--- | :--- | :--- |
-| `/init` | `scaffold_terachat.py` | **Khởi Tạo Dự Án**<br>Tự động tạo cấu trúc Monorepo (Rust Core, Swift Bridge). |
-| `/audit` | `security_audit.py` | **Kiểm Tra Bảo Mật**<br>Quét mã nguồn tìm lỗi bảo mật nghiêm trọng (Log bẩn, Panic). |
-| `/build` | `hermetic_build.py` | **Đóng Gói An Toàn**<br>Giả lập quy trình build sạch (Offline). |
-| `/test` | `workflow:test_cycle` | **Kiểm Thử Toàn Diện**<br>Chạy quy trình: Backend -> Fintech -> Native -> QA. |
-| - | `terachat_cli.py` | CLI chính của hệ thống. |
-| - | `orchestrator_router.py` | Bộ định tuyến lệnh trung tâm. |
+| `/init` | `scripts/scaffold_terachat.py` | Khởi tạo Monorepo (Rust Core + Swift Bridge) |
+| `/audit` | `scripts/security_audit.py` | Quét Log bẩn, PII, unsafe blocks |
+| `/build` | `scripts/hermetic_build.py` + `workflows/build.md` | Build sạch Offline Clean Room |
+| `/test` | `workflows/test.md` | Pipeline: Backend → Fintech → Native → QA |
+| — | `scripts/fuzz_test.py` | Fuzzing parser ≥ 10 phút |
+| — | `scripts/mem_check.py` | Memory leak + Zeroize verify |
+| — | `scripts/z3_solver.py` | Z3 SMT — phải UNSAT mọi attack vector |
+| — | `scripts/test_runner.py` | Unit + Integration, Coverage ≥ 80% |

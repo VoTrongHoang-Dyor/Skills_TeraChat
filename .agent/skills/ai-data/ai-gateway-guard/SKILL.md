@@ -1,3 +1,17 @@
+---
+agent_id: ai-gateway-guard
+role: "AI Gateway & PII Redaction Guard"
+slash_cmd: "/guard"
+trigger_keywords: ["PII", "redact", "prompt", "AI bot", "BYOK", "LLM", "Zero-Retention"]
+execution_gates:
+  - script: "python scripts/security_audit.py --scope pii"
+    threshold: "Zero raw PII in outbound API calls"
+    spec_ref: "Section 5.8"
+spec_refs: ["Section 5.8"]
+data_driven: false
+global_protocol: "GEMINI.md"
+---
+
 # Role: terachat-ai-gateway-guard
 **Description:** The "Firewall for Intelligence". Operates strictly within the Rust Core/WASM environment to intercept, sanitize, and manage data flow between User and External LLMs.
 

@@ -1,0 +1,16 @@
+Vuln_ID,CWE_ID,Category,Title,Description_VI,Risk_Level,Detection_Script,Fix_Approach,Spec_Ref
+V001,CWE-200,PII_Leak,PII in Logs,Log chứa nội dung tin nhắn / email / IP / token,CRITICAL,python scripts/security_audit.py,Replace với correlation_id và error_code,Section 2.7
+V002,CWE-401,Memory_Leak,Key Material Not Zeroized,Key material không được zeroize khi Drop — lưu lại trong RAM,CRITICAL,python scripts/mem_check.py,Derive zeroize::ZeroizeOnDrop cho mọi struct chứa key,Section 2.3
+V003,CWE-134,Injection,Format String via User Input,User input được dùng trực tiếp làm format string,HIGH,python scripts/security_audit.py,Không bao giờ format! với untrusted input,Section 2.8
+V004,CWE-195,Integer_Error,Integer Overflow in Buffer Parsing,Không check overflow khi tính offset vào buffer,HIGH,python scripts/fuzz_test.py,Dùng checked_add / saturating_add thay vì +,Section 2.8
+V005,CWE-126,String_Error,String Not NUL-Terminated Over FFI,String truyền qua FFI không có NUL terminator,HIGH,cargo clippy -- -D warnings,Dùng CString::new() và kiểm tra null,Section 2.7
+V006,CWE-476,Null_Pointer,Null Pointer from C Not Checked,Pointer nhận từ C không kiểm tra null trước khi dereference,HIGH,python scripts/fuzz_test.py,Check ptr.is_null() trước is_null trước unsafe deref,Section 2.7
+V007,CWE-330,Crypto_Weak,Weak RNG for Key Generation,Dùng thread_rng() thay vì OsRng cho key generation,HIGH,python scripts/security_audit.py --scope crypto,Dùng rand::rngs::OsRng cho mọi key material,Section 2.1
+V008,CWE-321,Crypto_Hardcoded,Hardcoded Key/IV in Binary,Key hoặc IV được hardcode trong source code,CRITICAL,python scripts/security_audit.py --scope crypto,Tải key từ HSM / Secure Enclave / env at runtime,Section 2.4
+V009,CWE-532,Log_Sensitive,Session Token in Audit Log,Session token / Bearer token bị log vào file,CRITICAL,python scripts/security_audit.py,Chỉ log SHA256(token) không log raw token,Section 2.7
+V010,CWE-23,Path_Traversal,Path Traversal in File Handler,User-controlled path cho phép escape sandbox,HIGH,python scripts/fuzz_test.py,Canonicalize path và check prefix match,Section 5.1
+V011,CWE-362,Race_Condition,TOCTOU in File Permission Check,Check permission và execute không atomic,HIGH,python scripts/z3_solver.py,Dùng open() với O_NOFOLLOW và check trong atomic,Section 2.9
+V012,CWE-287,Auth_Broken,Missing Biometric Re-auth for Fintech,Hành động tài chính không yêu cầu xác thực lại,CRITICAL,python scripts/security_audit.py --scope fintech,Callback biometric trước mọi hành động ký giao dịch,Section 3.3
+V013,CWE-311,Crypto_Missing,Plaintext Data in Network Layer,Dữ liệu rời network chưa qua mã hóa,CRITICAL,python scripts/fuzz_test.py --scope network,Enforce TLS 1.3 + E2EE ở application layer,Section 2.1
+V014,CWE-400,DoS,Unbounded Input Parsing,Parser không giới hạn kích thước input — DoS by OOM,HIGH,python scripts/fuzz_test.py,Validate max size trước khi parse,Section 2.8
+V015,CWE-611,XXE,WASM App Direct OS Syscall,Mini-App .tapp gọi trực tiếp vào OS bypassing sandbox,CRITICAL,python scripts/security_audit.py --scope wasm,Enforce WASM boundary — audit WASM import table,Section 5.1

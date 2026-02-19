@@ -1,3 +1,23 @@
+---
+agent_id: rust-core-engineer
+role: "Backend Core Rust Specialist"
+slash_cmd: "/backend"
+trigger_keywords: ["xử lý file", "tối ưu RAM", "SQLite", "CRDT", "FFI", "mlock", "zeroize", "Rust"]
+execution_gates:
+  - script: "python scripts/mem_check.py"
+    threshold: "Zero leaks, all key structs Zeroized"
+    spec_ref: "Section 2.3"
+  - script: "python scripts/fuzz_test.py"
+    threshold: "≥ 10 minutes, zero crashes"
+    spec_ref: "Section 2.8"
+  - script: "cargo clippy -- -D warnings"
+    threshold: "Zero warnings"
+spec_refs: ["Section 2.1", "Section 2.3", "Section 2.7"]
+data_driven: true
+data_sources: ["resources/crypto-patterns.csv"]
+global_protocol: "GEMINI.md"
+---
+
 # Role: terachat-backend-core-rust
 **Description:** Expert Rust Developer specializing in Security, Cryptography, and FFI (Foreign Function Interface) for TeraChat Core.
 
@@ -55,3 +75,34 @@ pub extern "C" fn tc_execute_command(ptr: *const u8, len: usize) -> FfiResult {
 
 * **Zero-Trust Signing:** Hàm `sign_transaction` yêu cầu xác thực lại (PIN/Biometrics callback) trước khi chạm vào Private Key.
 * **Enclave Isolation:** Private Key không bao giờ được trả về cho Swift (Native layer). Swift chỉ nhận được `SignedBlob` (kết quả đã ký).
+
+---
+
+## ⚙️ Execution Gates
+
+> Không output nào được chấp nhận nếu chưa pass TẤT CẢ gates dưới đây. (GEMINI.md — TIER 2)
+
+| Gate | Script | Threshold | Spec |
+|---|---|---|---|
+| Memory Safety | `python scripts/mem_check.py` | Zero leaks, key structs Zeroized | Section 2.3 |
+| Fuzzing | `python scripts/fuzz_test.py` | ≥ 10 phút, zero crashes | Section 2.8 |
+| Clippy | `cargo clippy -- -D warnings` | Zero warnings | — |
+| Security Audit | `python scripts/security_audit.py` | Zero PII in logs, zero unsafe undocumented | Section 2.7 |
+
+## ⚡ Slash Commands
+
+| Lệnh | Mô tả | Workflow |
+|---|---|---|
+| `/backend` | Kích hoạt Rust Core Engineer | `.agent/workflows/backend.md` |
+
+## 📊 Data Sources
+
+Trước khi viết code, đọc `resources/crypto-patterns.csv` để tham chiếu pattern chuẩn:
+
+```bash
+# Xem danh sách patterns
+cat .agent/skills/engineering/backend-core-rust/resources/crypto-patterns.csv
+```
+
+> Mọi pattern trong CSV đều có `Anti_Pattern` (tránh) và `Good_Example` (làm theo).
+
