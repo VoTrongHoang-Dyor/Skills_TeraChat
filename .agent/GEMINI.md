@@ -40,16 +40,22 @@ applies_to: ALL_AGENTS
 
 | Loại Yêu Cầu | Keywords (Ví dụ) | Agent Chuyên Trách | Skill Path | Kết Quả Trả Về |
 |---|---|---|---|---|
-| **Giao diện/UX** | "Vẽ UI", "list view", "thêm nút", "layout", "Stitch" | `@tauri-desktop-specialist` | `skills/ui-architect/` | UI Component (React/HTML + Tauri) |
-| **Logic/Core** | "Xử lý file", "tối ưu RAM", "SQLite", "CRDT", "sync" | `@rust-core-engineer` | `skills/engineering/` | Code Rust logic, CRDT Sync |
-| **Mạng & Bảo mật** | "Mã hóa", "P2P", "Cluster", "Key", "MLS", "attestation" | `@crypto-security-auditor` | `skills/engineering/secure-coding-practices/` | Implementation MLS, Enclave |
-| **Mini-App/WASM** | "WASM", "Tiện ích", "Marketplace", ".tapp" | `@wasm-sandbox-architect` | `skills/engineering/` | .tapp module, Isolation logic |
-| **AI Gateway** | "PII", "redact", "prompt", "AI bot", "BYOK" | `@ai-gateway-guard` | `skills/ai-data/` | Gateway Middleware, Dual-Mask |
-| **Infrastructure** | "deploy", "Helm", "cluster", "Terraform", "Docker" | `@devops-architect` | `skills/infrastructure/` | K8s Helm chart, IaC |
-| **Product/UX Design** | "tính năng mới", "roadmap", "reseller", "onboarding" | `@product-manager` | `skills/product/` | PRD, Feature Spec |
-| **Tài liệu** | "viết docs", "README", "spec", "RFC" | `@technical-writer` | `skills/documentation/` | Markdown, RFC |
-| **Tài nguyên Động** | "alert", "slash cmd", "CSV config", "error code", "TDRL" | `@tdrl-engine` | `skills/tdrl/` | Cập nhật CSV templates |
-| **QA / Testing** | "test", "fuzz", "unit test", "E2E", "kiểm tra" | `@qa-engineer` | `skills/qa/` | Test scripts, coverage report |
+| **🔧 Frontend** | "HTML", "CSS", "React", "Vue", "giao diện", "landing page" | `@frontend-developer` | `skills/frontend/` | HTML/CSS/JS, React/Vue component |
+| **🔧 Backend** | "Xử lý file", "SQLite", "CRDT", "Rust", "API server" | `@rust-core-engineer` | `skills/engineering/` | Code Rust logic, API, DB handler |
+| **🔧 Fullstack** | "fullstack", "end-to-end", "Next.js", "cả frontend backend" | `@fullstack-developer` | `skills/fullstack/` | Full-stack code (FE + API + DB) |
+| **🔧 QA/Testing** | "test", "fuzz", "unit test", "E2E", "kiểm tra" | `@qa-engineer` | `skills/qa/` | Test scripts, coverage report |
+| **🔧 DevOps** | "deploy", "Helm", "cluster", "Terraform", "Docker", "CI/CD" | `@devops-architect` | `skills/infrastructure/` | K8s Helm chart, IaC, CI pipeline |
+| **🔧 Data** | "data pipeline", "ETL", "BigQuery", "machine learning", "phân tích dữ liệu" | `@data-engineer` | `skills/data/` | Python/SQL scripts, ML model, dashboard |
+| **🎨 UI/UX** | "Vẽ UI", "list view", "layout", "Stitch", "design" | `@tauri-desktop-specialist` | `skills/ui-architect/` | UI Component (React/HTML + Tauri) |
+| **🎨 Product** | "tính năng mới", "roadmap", "reseller", "onboarding", "PRD" | `@product-manager` | `skills/product/` | PRD, Feature Spec |
+| **🎨 Project Mgmt** | "tiến độ", "deadline", "sprint", "scrum", "RACI", "risk" | `@project-manager` | `skills/project-manager/` | Sprint plan, RACI, risk register |
+| **💼 BA** | "yêu cầu nghiệp vụ", "user story", "BPMN", "gap analysis" | `@business-analyst` | `skills/business-analyst/` | BRD, User Stories, BPMN diagram |
+| **💼 Marketing** | "marketing", "SEO", "content", "campaign", "pitch deck" | `@marketing-sales` | `skills/marketing/` | Marketing plan, copy, pitch deck |
+| **💼 CS** | "hỗ trợ khách hàng", "ticket", "FAQ", "SLA", "khiếu nại" | `@customer-support` | `skills/customer-support/` | Support script, FAQ, escalation guide |
+| **🛡️ Bảo mật** | "Mã hóa", "P2P", "Key", "MLS", "attestation", "CVE" | `@crypto-security-auditor` | `skills/engineering/secure-coding-practices/` | Implementation MLS, Enclave |
+| **🛡️ AI Gateway** | "PII", "redact", "BYOK", "Zero-Retention", "LLM" | `@ai-gateway-guard` | `skills/ai-data/` | Gateway Middleware, Dual-Mask |
+| **📝 Tài liệu** | "viết docs", "README", "spec", "RFC", "tài liệu" | `@technical-writer` | `skills/documentation/` | Markdown, RFC |
+| **⚙️ TDRL** | "alert", "slash cmd", "CSV config", "error code" | `@tdrl-engine` | `skills/tdrl/` | Cập nhật CSV templates |
 
 ---
 

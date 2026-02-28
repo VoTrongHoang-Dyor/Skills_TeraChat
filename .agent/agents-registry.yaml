@@ -221,6 +221,148 @@ agents:
     data_sources:
       - "skills/qa/qa-automation/resources/test-scenarios.csv"
 
+  - id: frontend-developer
+    role: "Frontend Developer"
+    skill_path: "skills/frontend/"
+    slash_cmd: "/frontend"
+    trigger_keywords:
+      - "giao diện"
+      - "UI component"
+      - "HTML"
+      - "CSS"
+      - "React"
+      - "Vue"
+      - "Angular"
+      - "responsive"
+      - "landing page"
+      - "animation"
+      - "layout"
+      - "frontend"
+    execution_gates: []
+    spec_refs: []
+    output_format: "HTML/CSS/JS code, React/Vue/Angular component"
+
+  - id: fullstack-developer
+    role: "Fullstack Developer"
+    skill_path: "skills/fullstack/"
+    slash_cmd: "/fullstack"
+    trigger_keywords:
+      - "fullstack"
+      - "end-to-end"
+      - "cả frontend backend"
+      - "API integration"
+      - "Next.js"
+      - "Node.js"
+      - "Laravel"
+      - "Django"
+      - "FastAPI"
+      - "database schema"
+      - "MVP"
+    execution_gates: []
+    spec_refs: []
+    output_format: "Full-stack code (frontend + API + DB schema)"
+
+  - id: data-engineer
+    role: "Data Engineer / Data Scientist"
+    skill_path: "skills/data/"
+    slash_cmd: "/data"
+    trigger_keywords:
+      - "data pipeline"
+      - "ETL"
+      - "phân tích dữ liệu"
+      - "machine learning"
+      - "BigQuery"
+      - "Airflow"
+      - "pandas"
+      - "SQL analytics"
+      - "dashboard"
+      - "model"
+      - "AWS"
+      - "dữ liệu lớn"
+    execution_gates: []
+    spec_refs: []
+    output_format: "Python scripts, SQL queries, ML model, dashboard"
+
+  - id: project-manager
+    role: "Project Manager"
+    skill_path: "skills/project-manager/"
+    slash_cmd: "/pm"
+    trigger_keywords:
+      - "tiến độ"
+      - "deadline"
+      - "sprint"
+      - "scrum"
+      - "Jira"
+      - "Trello"
+      - "risk"
+      - "milestone"
+      - "kế hoạch dự án"
+      - "RACI"
+      - "status report"
+      - "retrospective"
+    execution_gates: []
+    spec_refs: []
+    output_format: "Project plan, sprint breakdown, RACI matrix, risk register, status report"
+
+  - id: business-analyst
+    role: "Business Analyst"
+    skill_path: "skills/business-analyst/"
+    slash_cmd: "/ba"
+    trigger_keywords:
+      - "yêu cầu nghiệp vụ"
+      - "requirements"
+      - "user story"
+      - "use case"
+      - "BPMN"
+      - "stakeholder"
+      - "gap analysis"
+      - "flowchart"
+      - "BRD"
+      - "acceptance criteria"
+    execution_gates: []
+    spec_refs: []
+    output_format: "BRD, FRD, User Stories, BPMN diagram, Data Dictionary"
+
+  - id: marketing-sales
+    role: "Marketing & Sales Specialist"
+    skill_path: "skills/marketing/"
+    slash_cmd: "/marketing"
+    trigger_keywords:
+      - "marketing"
+      - "SEO"
+      - "content"
+      - "campaign"
+      - "landing page copy"
+      - "pitch deck"
+      - "branding"
+      - "email drip"
+      - "funnel"
+      - "doanh thu"
+      - "quảng bá"
+      - "sales"
+    execution_gates: []
+    spec_refs: []
+    output_format: "Marketing plan, content copy, campaign brief, pitch deck"
+
+  - id: customer-support
+    role: "Customer Support Specialist"
+    skill_path: "skills/customer-support/"
+    slash_cmd: "/cs"
+    trigger_keywords:
+      - "hỗ trợ khách hàng"
+      - "support"
+      - "ticket"
+      - "FAQ"
+      - "troubleshooting"
+      - "user complaint"
+      - "khiếu nại"
+      - "SLA"
+      - "onboarding guide"
+      - "knowledge base"
+    execution_gates: []
+    spec_refs: []
+    output_format: "Support script, FAQ, escalation guide, onboarding doc"
+
 # ---
 # Routing Priority (khi request match nhiều agent):
 # 1. Security keywords → crypto-security-auditor (overrides all)
